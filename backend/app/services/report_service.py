@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 class ReportService:
     def __init__(self):
-        self.reports_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "generated_documents"))
+        self.reports_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "generated_documents"))
         os.makedirs(self.reports_dir, exist_ok=True)
 
     async def list_reports(self, user_id: str) -> List[Dict[str, Any]]:

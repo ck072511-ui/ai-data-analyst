@@ -26,7 +26,9 @@ class ReadinessValidator:
             is_ready = False
 
         # 2. Vector Store Directory
-        vs_dir = "./vector_store"
+        vs_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "..", "vector_store")
+        )
         os.makedirs(vs_dir, exist_ok=True)
         if os.path.exists(vs_dir) and os.access(vs_dir, os.W_OK):
             status["vector_store_directory"] = "Healthy (Writable)"
@@ -35,7 +37,9 @@ class ReadinessValidator:
             is_ready = False
 
         # 3. Generated documents Directory
-        doc_dir = "./backend/generated_documents"
+        doc_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "..", "data", "generated_documents")
+        )
         os.makedirs(doc_dir, exist_ok=True)
         if os.path.exists(doc_dir) and os.access(doc_dir, os.W_OK):
             status["document_export_directory"] = "Healthy (Writable)"
