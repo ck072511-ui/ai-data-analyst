@@ -1,0 +1,40 @@
+{
+  "id": "forecast_helper",
+  "name": "Forecast Helper",
+  "version": "1.0.0",
+  "description": "Runs simple offline moving average and trend extrapolation predictions on data series.",
+  "author": "Predictive Science",
+  "capability": "analytics",
+  "compatible_versions": [
+    "1.0.0"
+  ],
+  "dependencies": [
+    "kpi_library"
+  ],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "target_col": {
+        "type": "string",
+        "default": "value",
+        "description": "Column name to project"
+      },
+      "periods": {
+        "type": "integer",
+        "default": 6,
+        "description": "Number of periods forward to predict"
+      },
+      "method": {
+        "type": "string",
+        "default": "moving_average",
+        "enum": [
+          "moving_average",
+          "linear_extrapolate"
+        ]
+      }
+    },
+    "required": [
+      "target_col"
+    ]
+  }
+}

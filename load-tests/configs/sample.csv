@@ -1,0 +1,11 @@
+id,name,age,salary,joined_date,email,phone,status_flag
+1,John Doe,28,50000,2023-01-15,john.doe@example.com,123-456-7890,active
+2,Jane Smith,32,60000,2022-11-20,jane.smith@example.com,987-654-3210,active
+3,Bob Johnson,45,80000,2020-05-12,bob.j@example.com,555-123-4567,active
+4,Alice Williams,29,55000,2023-03-01,alice.w@example.com,444-555-6666,active
+5,Charlie Brown,22,42000,2024-01-10,charlie.b@example.com,777-888-9999,inactive
+6,David Miller,38,72000,2021-08-15,david.m@example.com,111-222-3333,active
+7,Eva Green,26,48000,2023-06-25,eva.g@example.com,222-333-4444,active
+8,Frank Wright,51,95000,2019-02-18,frank.w@example.com,888-999-0000,active
+9,Grace Hopper,35,85000,2021-12-05,grace.h@example.com,999-000-1111,active
+10,Henry Ford,41,68000,2020-10-10,henry.f@example.com,123-456-7890,active

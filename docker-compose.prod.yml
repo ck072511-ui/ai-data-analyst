@@ -1,0 +1,150 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai_analyst_prod_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-analyst}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-analytics_db}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./backend/data/sample_data.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-analyst} -d ${POSTGRES_DB:-analytics_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ai_analyst_prod_cache
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_analyst_prod_backend
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-analyst}:${POSTGRES_PASSWORD:-secure_password}@postgres:5432/${POSTGRES_DB:-analytics_db}
+      REDIS_URL: redis://redis:6379/0
+      ENVIRONMENT: production
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - uploads_prod_data:/app/data/uploads
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_analyst_prod_celery_worker
+    command: celery -A app.core.celery_app worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-analyst}:${POSTGRES_PASSWORD:-secure_password}@postgres:5432/${POSTGRES_DB:-analytics_db}
+      REDIS_URL: redis://redis:6379/0
+      ENVIRONMENT: production
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - uploads_prod_data:/app/data/uploads
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai_analyst_prod_frontend
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: ai_analyst_prod_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ssl_certs_data:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "nginx -t"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ai_analyst_prod_prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_prod_data:/prometheus
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ai_analyst_prod_grafana
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_prod_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - ai_prod_network
+
+networks:
+  ai_prod_network:
+    name: ai_analyst_prod_network
+    driver: bridge
+
+volumes:
+  postgres_prod_data:
+    name: ai_analyst_postgres_prod_data
+  redis_prod_data:
+    name: ai_analyst_redis_prod_data
+  uploads_prod_data:
+    name: ai_analyst_uploads_prod_data
+  ssl_certs_data:
+    name: ai_analyst_ssl_certs_data
+  prometheus_prod_data:
+    name: ai_analyst_prometheus_prod_data
+  grafana_prod_data:
+    name: ai_analyst_grafana_prod_data

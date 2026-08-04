@@ -1,0 +1,3 @@
+@echo off 
+echo Starting AI Data Analyst... 
+docker-compose up 

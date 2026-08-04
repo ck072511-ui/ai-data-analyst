@@ -1,0 +1,32 @@
+{
+  "id": "custom_report",
+  "name": "Custom Report Template",
+  "version": "1.0.0",
+  "description": "Renders reports with customized headers, enterprise logos, dynamic table styles, and signature panels.",
+  "author": "Document Engineering",
+  "capability": "report",
+  "compatible_versions": [
+    "1.0.0"
+  ],
+  "dependencies": [],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "logo_url": {
+        "type": "string",
+        "default": "",
+        "description": "Absolute URL or path of logo image file"
+      },
+      "primary_color": {
+        "type": "string",
+        "default": "#1e3a8a",
+        "description": "Hex primary color code"
+      },
+      "include_sign_off": {
+        "type": "boolean",
+        "default": true
+      }
+    },
+    "required": []
+  }
+}

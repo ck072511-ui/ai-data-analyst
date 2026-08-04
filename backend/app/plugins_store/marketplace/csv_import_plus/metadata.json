@@ -1,0 +1,33 @@
+{
+  "id": "csv_import_plus",
+  "name": "CSV Import Plus",
+  "version": "1.0.0",
+  "description": "Enhanced CSV parsing data source with customizable delimiters, character encoding selectors, and header sanitizers.",
+  "author": "Platform Team",
+  "capability": "data_source",
+  "compatible_versions": [
+    "1.0.0"
+  ],
+  "dependencies": [],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "delimiter": {
+        "type": "string",
+        "default": ",",
+        "description": "Character separating fields (e.g. , ; tab)"
+      },
+      "encoding": {
+        "type": "string",
+        "default": "utf-8",
+        "description": "Character encoding (e.g. utf-8, latin-1)"
+      },
+      "skip_rows": {
+        "type": "integer",
+        "default": 0,
+        "description": "Number of header rows to skip"
+      }
+    },
+    "required": []
+  }
+}

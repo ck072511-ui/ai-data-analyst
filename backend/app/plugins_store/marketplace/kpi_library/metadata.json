@@ -1,0 +1,36 @@
+{
+  "id": "kpi_library",
+  "name": "KPI Library",
+  "version": "1.0.0",
+  "description": "Calculates business core KPIs (e.g. Gross Margin Ratio, Customer Acquisition Cost, and Year-over-Year Growth).",
+  "author": "Finance Analytics Group",
+  "capability": "analytics",
+  "compatible_versions": [
+    "1.0.0"
+  ],
+  "dependencies": [],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "revenue_col": {
+        "type": "string",
+        "default": "revenue",
+        "description": "Name of the revenue column"
+      },
+      "cost_col": {
+        "type": "string",
+        "default": "cost",
+        "description": "Name of the cost of goods sold column"
+      },
+      "period_col": {
+        "type": "string",
+        "default": "date",
+        "description": "Time dimension column"
+      }
+    },
+    "required": [
+      "revenue_col",
+      "cost_col"
+    ]
+  }
+}

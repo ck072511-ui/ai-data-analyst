@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-07-25T10:27:26.637613Z",
+  "cpu_usage_pct": 10.7,
+  "memory_usage_pct": 76.7,
+  "targets": {
+    "api_p95_latency_ms": 200,
+    "api_p99_latency_ms": 500,
+    "dashboard_gen_time_s": 5.0,
+    "dataset_upload_time_s": 10.0,
+    "task_completion_time_s": 30.0,
+    "cache_hit_percentage": 80.0,
+    "error_rate_threshold_pct": 1.0
+  },
+  "actuals": {
+    "api_p95_latency_ms": 78.4,
+    "api_p99_latency_ms": 145.2,
+    "dashboard_gen_time_s": 1.25,
+    "dataset_upload_time_s": 0.85,
+    "task_completion_time_s": 2.1,
+    "cache_hit_percentage": 94.2,
+    "error_rate_pct": 0.0,
+    "rps": 185.3
+  },
+  "history": [
+    {
+      "date": "2026-07-23",
+      "p95": 92.5,
+      "p99": 160.1,
+      "rps": 150.2
+    },
+    {
+      "date": "2026-07-24",
+      "p95": 85.2,
+      "p99": 152.4,
+      "rps": 165.8
+    },
+    {
+      "date": "2026-07-25",
+      "p95": 78.4,
+      "p99": 145.2,
+      "rps": 185.3
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+name: Release Automation
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Frontend Artifacts
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+          cd ..
+
+      - name: Package Release Archive
+        run: |
+          mkdir -p release-dist
+          zip -r release-dist/ai-data-analyst-${{ github.ref_name }}.zip backend/ frontend/build/ docker-compose.yml README.md docs/
+
+      - name: Generate Changelog Notes
+        id: changelog
+        run: |
+          echo "## Release ${{ github.ref_name }}" > release_notes.md
+          echo "Release packaged successfully on $(date)." >> release_notes.md
+          echo "### Changes" >> release_notes.md
+          git log $(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || git rev-list --max-parents=0 HEAD)..HEAD --oneline >> release_notes.md || echo "Initial release." >> release_notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_notes.md
+          files: release-dist/ai-data-analyst-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

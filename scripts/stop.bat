@@ -1,0 +1,3 @@
+@echo off 
+echo Stopping AI Data Analyst... 
+docker-compose down 

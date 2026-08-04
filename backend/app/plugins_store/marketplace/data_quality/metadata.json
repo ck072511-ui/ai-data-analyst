@@ -1,0 +1,34 @@
+{
+  "id": "data_quality",
+  "name": "Data Quality Rules",
+  "version": "1.0.0",
+  "description": "Workflow step executing column validations: null value rates, unique constraints, and pattern checks.",
+  "author": "Compliance and Quality",
+  "capability": "workflow_node",
+  "compatible_versions": [
+    "1.0.0"
+  ],
+  "dependencies": [],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "check_column": {
+        "type": "string",
+        "default": "",
+        "description": "Column to evaluate"
+      },
+      "max_null_percentage": {
+        "type": "number",
+        "default": 5.0,
+        "description": "Fail if null percentage exceeds this limit"
+      },
+      "check_uniqueness": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "required": [
+      "check_column"
+    ]
+  }
+}

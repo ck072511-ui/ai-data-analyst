@@ -1,0 +1,9 @@
+{
+  "api_p95_latency_ms": 200,
+  "api_p99_latency_ms": 500,
+  "dashboard_gen_time_s": 5.0,
+  "dataset_upload_time_s": 10.0,
+  "task_completion_time_s": 30.0,
+  "cache_hit_percentage": 80.0,
+  "error_rate_threshold_pct": 1.0
+}
