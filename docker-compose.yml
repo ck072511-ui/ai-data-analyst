@@ -58,6 +58,8 @@ services:
     restart: unless-stopped
     networks:
       - ai_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   celery-worker:
     build:
@@ -80,6 +82,8 @@ services:
     restart: unless-stopped
     networks:
       - ai_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   frontend:
     build:
