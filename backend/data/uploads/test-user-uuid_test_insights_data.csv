@@ -1,6 +1,0 @@
-id,name,age,salary,email
-1,Alice,30,70000.0,alice@example.com
-2,Bob,25,80000.0,bob-invalid-email
-3,Charlie,35,95000.0,charlie@example.com
-1,Alice,30,70000.0,alice@example.com
-4,Dave,40,,dave@example.com
