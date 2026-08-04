@@ -14,10 +14,7 @@ router = APIRouter(prefix="/rag", tags=["RAG Document Assistant"])
 rag_service = RAGService()
 
 # Ensure storage path exists
-BASE_UPLOAD_DIR = (
-    os.path.join("backend", "data", "uploads") if os.path.exists("backend") else os.path.join("data", "uploads")
-)
-UPLOAD_DIR = os.path.abspath(os.path.join(BASE_UPLOAD_DIR, "rag_documents"))
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "uploads", "rag_documents"))
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 

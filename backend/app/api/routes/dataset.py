@@ -31,9 +31,7 @@ from app.services.versioning_service import (
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/datasets", tags=["Datasets"])
 
-UPLOAD_DIR = (
-    os.path.join("backend", "data", "uploads") if os.path.exists("backend") else os.path.join("data", "uploads")
-)
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "uploads"))
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 cleaning_statuses = {}

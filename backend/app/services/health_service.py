@@ -22,10 +22,8 @@ class HealthService:
     async def check_storage_health(self) -> bool:
         """Checks if upload directory is available and writable"""
         try:
-            upload_dir = (
-                os.path.join("backend", "data", "uploads")
-                if os.path.exists("backend")
-                else os.path.join("data", "uploads")
+            upload_dir = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
             )
             os.makedirs(upload_dir, exist_ok=True)
             test_file = os.path.join(upload_dir, f".health_check_temp_{int(time.time())}")
